@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>International Phone Number Slider</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        #sliderValue {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>International Phone Number Slider</h1>
+
+<label for="countryCode">Choose a country code:</label>
+<select id="countryCode">
+    <option value="+1">(+1) USA</option>
+    <option value="+43">(+43) Austria</option>
+    <option value="+90" selected>(+90) Turkey</option>
+    <option value="+44">(+44) UK</option>
+    <option value="+49">(+49) Germany</option>
+    <!-- Add more country codes as needed -->
+</select>
+
+<input type="range" id="numberSlider" min="0" max="999999999" value="0" step="1">
+<p id="sliderValue">Phone Number: (+90) 0XX XXX XX XX</p>
+
+<script>
+    const countryCodeSelect = document.getElementById('countryCode');
+    const numberSlider = document.getElementById('numberSlider');
+    const sliderValue = document.getElementById('sliderValue');
+
+    function updatePhoneNumber() {
+        const countryCode = countryCodeSelect.value;
+        const numberPart = numberSlider.value.toString().padStart(9, '0'); // Ensure it's always 9 digits
+        let formattedNumber;
+
+        if (countryCode === "+90") {
+            // Format for Turkey: 0XX XXX XX XX
+            formattedNumber = `${countryCode} 0${numberPart.slice(0, 3)} ${numberPart.slice(2, 5)} ${numberPart.slice(5, 7)} ${numberPart.slice(7)}`;
+        } else {
+            // Default formatting for other codes
+            formattedNumber = `${countryCode} ${numberPart.slice(0, 3)}-${numberPart.slice(3, 6)}-${numberPart.slice(6)}`;
+        }
+
+        sliderValue.textContent = 'Phone Number: ' + formattedNumber;
+    }
+
+    countryCodeSelect.addEventListener('change', updatePhoneNumber);
+    numberSlider.addEventListener('input', updatePhoneNumber);
+
+    // Initialize the display
+    updatePhoneNumber();
+</script>
+
+</body>
+</html>
